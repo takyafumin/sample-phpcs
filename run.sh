@@ -21,6 +21,7 @@ function display_help {
     echo "  [develop]";
     echo "      artisan [sub-command]   Execute artisan command on APP Container";
     echo "      tinker                  Execute php artisan tinekr on APP Container";
+    echo "      composer [sub-command]  Execute composer command on APP Container";
     echo "";
     echo "  [others]";
     echo "      help                    Display help for a command";
@@ -40,12 +41,12 @@ elif [ "$1" = "help" ]; then
     display_help
 
 elif [ $1 = "up" ]; then
-  shift 1
-  docker-compose up $@
+    shift 1
+    docker-compose up $@
 
 elif [ $1 = "down" ]; then
-  shift 1
-  docker-compose down $@
+    shift 1
+    docker-compose down $@
 
 elif [ $1 = "init" ]; then
     if [ ! -f .env ]; then
@@ -65,14 +66,18 @@ elif [ $1 == "clean-local" ]; then
     rm -rf vendor
     cd .. && git clean -xf
 
+elif [ $1 == "composer" ]; then
+    shift 1
+    docker-compose exec -u ${APP_USER} ${CONTAINER_APP} composer "$@"
+
 elif [ $1 == "artisan" ]; then
-  shift 1
-  docker-compose exec -u ${APP_USER} ${CONTAINER_APP} php artisan $@
+    shift 1
+    docker-compose exec -u ${APP_USER} ${CONTAINER_APP} php artisan $@
 
 elif [ $1 == "tinker" ]; then
-  docker-compose exec -u ${APP_USER} ${CONTAINER_APP} php artisan tinker
+    docker-compose exec -u ${APP_USER} ${CONTAINER_APP} php artisan tinker
 
 elif [ $# -ge 1 ]; then
-  # 未指定のパラメータの場合、docker-copmoseコマンドをそのまま呼び出す
-  docker-compose $@
+    # 未指定のパラメータの場合、docker-copmoseコマンドをそのまま呼び出す
+    docker-compose $@
 fi
