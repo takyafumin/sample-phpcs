@@ -6,6 +6,9 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Broadcast Service Provider
+ */
 class BroadcastServiceProvider extends ServiceProvider
 {
     /**
@@ -17,6 +20,6 @@ class BroadcastServiceProvider extends ServiceProvider
     {
         Broadcast::routes();
 
-        require base_path('routes/channels.php');
+        include base_path('routes/channels.php');
     }
 }

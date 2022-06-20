@@ -19,9 +19,13 @@ function display_help {
     echo "      clean-local             Cleanup local files(git clean -xn & rm -rf vendor)";
     echo "";
     echo "  [develop]";
+    echo "      bash                    Execute bash shell on APP Container";
     echo "      artisan [sub-command]   Execute artisan command on APP Container";
     echo "      tinker                  Execute php artisan tinekr on APP Container";
+    echo "      tinker.debug            Execute php artisan tinekr on APP Container(with Xdebug mode)";
     echo "      composer [sub-command]  Execute composer command on APP Container";
+    echo "      cs-check                Execute phpcs on APP Container(Code Check)";
+    echo "      cs-fix                  Execute phpcbf on APP Container(Code Format)";
     echo "";
     echo "  [others]";
     echo "      help                    Display help for a command";
@@ -70,12 +74,26 @@ elif [ $1 == "composer" ]; then
     shift 1
     docker-compose exec -u ${APP_USER} ${CONTAINER_APP} composer "$@"
 
+elif [ $1 == "bash" ]; then
+    docker-compose exec -u ${APP_USER} ${CONTAINER_APP} bash
+
 elif [ $1 == "artisan" ]; then
     shift 1
     docker-compose exec -u ${APP_USER} ${CONTAINER_APP} php artisan $@
 
 elif [ $1 == "tinker" ]; then
     docker-compose exec -u ${APP_USER} ${CONTAINER_APP} php artisan tinker
+
+elif [ $1 == "tinker.debug" ]; then
+    docker-compose exec -u ${APP_USER} -e XDEBUG_SESSION=1 ${CONTAINER_APP} php artisan tinker
+
+elif [ $1 == "cs-check" ]; then
+    shift 1
+    docker-compose exec -u ${APP_USER} ${CONTAINER_APP} ./vendor/bin/phpcs $@
+
+elif [ $1 == "cs-fix" ]; then
+    shift 1
+    docker-compose exec -u ${APP_USER} ${CONTAINER_APP} ./vendor/bin/phpcbf $@
 
 elif [ $# -ge 1 ]; then
     # 未指定のパラメータの場合、docker-copmoseコマンドをそのまま呼び出す

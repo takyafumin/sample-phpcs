@@ -1,13 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Infra\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * User Model
+ *
+ * @package App\Infra\Models
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -43,4 +49,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Factory
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory<static>
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    protected static function newFactory()
+    {
+        return app()->make(UserFactory::class);
+    }
 }

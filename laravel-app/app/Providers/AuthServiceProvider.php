@@ -5,6 +5,9 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
+/**
+ * Auth Service Provider
+ */
 class AuthServiceProvider extends ServiceProvider
 {
     /**

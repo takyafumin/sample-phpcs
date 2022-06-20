@@ -45,9 +45,7 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-        "cs-check": "phpcs --colors --parallel=16 -p app/ tests/",
-        "cs-fix": "phpcbf --colors --parallel=16 -p app/ tests/"
+        ]
     },
     "extra": {
         "laravel": {

@@ -5,6 +5,9 @@ namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
 
+/**
+ * Creates Application Trait
+ */
 trait CreatesApplicationTrait
 {
     /**
@@ -14,7 +17,7 @@ trait CreatesApplicationTrait
      */
     public function createApplication()
     {
-        $app = require __DIR__ . '/../bootstrap/app.php';
+        $app = include __DIR__ . '/../bootstrap/app.php';
 
         $app->make(Kernel::class)->bootstrap();
 
